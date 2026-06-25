@@ -1,1 +1,1 @@
-{"version":3,"file":"roomInput.d.ts","sourceRoot":"","sources":["../../../src/generated/types/roomInput.ts"],"names":[],"mappings":"AAAA;;;;;;GAMG;AAEH,MAAM,WAAW,SAAS;IACxB,mBAAmB;IACnB,QAAQ,EAAE,MAAM,CAAC;CAClB"}
+{"version":3,"file":"roomInput.d.ts","sourceRoot":"","sources":["../../../src/generated/types/roomInput.ts"],"names":[],"mappings":"AAAA;;;;;;GAMG;AAEH,MAAM,WAAW,SAAS;IACxB,mBAAmB;IACnB,QAAQ,EAAE,MAAM,CAAC;IACjB,GAAG,CAAC,EAAE,MAAM,CAAC;CACd"}

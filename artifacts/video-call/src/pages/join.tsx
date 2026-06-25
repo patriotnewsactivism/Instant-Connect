@@ -49,7 +49,10 @@ export default function Join() {
   });
 
   const { data: messages = [] } = useGetMessages(roomId, {
-    query: { enabled: !!roomId && mode === "message" }
+    query: { 
+      enabled: !!roomId && mode === "message",
+      queryKey: getGetMessagesQueryKey(roomId)
+    }
   });
 
   const sendMessageMutation = useSendMessage();
@@ -66,7 +69,7 @@ export default function Join() {
     setIsSending(true);
     sendMessageMutation.mutate(
       { 
-        params: { roomId },
+        roomId,
         data: { senderName: childName.trim(), content: messageContent.trim(), type: "text" } 
       },
       {

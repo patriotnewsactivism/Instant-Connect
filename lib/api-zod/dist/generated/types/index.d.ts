@@ -5,6 +5,9 @@
  * KidCall video conferencing API
  * OpenAPI spec version: 0.1.0
  */
+export * from './callRequest';
+export * from './callRequestInput';
+export * from './callRequestResponse';
 export * from './errorResponse';
 export * from './healthStatus';
 export * from './markReadResponse';
@@ -12,4 +15,7 @@ export * from './message';
 export * from './messageInput';
 export * from './room';
 export * from './roomInput';
+export * from './updateCallRequestInput';
+export * from './verifyPinInput';
+export * from './verifyPinResponse';
 //# sourceMappingURL=index.d.ts.map

@@ -36,16 +36,20 @@ export default function Room() {
   });
 
   const { data: messages = [] } = useGetMessages(roomId, {
-    query: { enabled: !!roomId, refetchInterval: 15000 }
+    query: { 
+      enabled: !!roomId, 
+      refetchInterval: 15000,
+      queryKey: getGetMessagesQueryKey(roomId)
+    }
   });
 
   const markReadMutation = useMarkMessagesRead();
 
-  const unreadCount = messages.filter(m => !m.readAt).length;
+  const unreadCount = messages.filter(m => !m.read).length;
 
   useEffect(() => {
     if (showMessages && unreadCount > 0) {
-      markReadMutation.mutate({ params: { roomId } }, {
+      markReadMutation.mutate({ roomId }, {
         onSuccess: () => {
           queryClient.invalidateQueries({ queryKey: getGetMessagesQueryKey(roomId) });
         }

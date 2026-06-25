@@ -10,5 +10,6 @@ export interface Room {
     hostName: string;
     createdAt: string;
     active: boolean;
+    hasPin: boolean;
 }
 //# sourceMappingURL=room.d.ts.map

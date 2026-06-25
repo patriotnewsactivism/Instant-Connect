@@ -8,5 +8,6 @@
 export interface RoomInput {
     /** @minLength 1 */
     hostName: string;
+    pin?: string;
 }
 //# sourceMappingURL=roomInput.d.ts.map

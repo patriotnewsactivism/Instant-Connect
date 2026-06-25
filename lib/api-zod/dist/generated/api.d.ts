@@ -21,10 +21,13 @@ export declare const HealthCheckResponse: zod.ZodObject<{
  */
 export declare const CreateRoomBody: zod.ZodObject<{
     hostName: zod.ZodString;
+    pin: zod.ZodOptional<zod.ZodString>;
 }, "strip", zod.ZodTypeAny, {
     hostName: string;
+    pin?: string | undefined;
 }, {
     hostName: string;
+    pin?: string | undefined;
 }>;
 /**
  * @summary Get room details
@@ -41,19 +44,46 @@ export declare const GetRoomResponse: zod.ZodObject<{
     hostName: zod.ZodString;
     createdAt: zod.ZodString;
     active: zod.ZodBoolean;
+    hasPin: zod.ZodBoolean;
 }, "strip", zod.ZodTypeAny, {
     hostName: string;
     id: string;
     createdAt: string;
     active: boolean;
+    hasPin: boolean;
 }, {
     hostName: string;
     id: string;
     createdAt: string;
     active: boolean;
+    hasPin: boolean;
 }>;
 /**
- * @summary Get all messages for a room (parent inbox)
+ * @summary Verify the room PIN before joining
+ */
+export declare const VerifyPinParams: zod.ZodObject<{
+    roomId: zod.ZodString;
+}, "strip", zod.ZodTypeAny, {
+    roomId: string;
+}, {
+    roomId: string;
+}>;
+export declare const VerifyPinBody: zod.ZodObject<{
+    pin: zod.ZodString;
+}, "strip", zod.ZodTypeAny, {
+    pin: string;
+}, {
+    pin: string;
+}>;
+export declare const VerifyPinResponse: zod.ZodObject<{
+    valid: zod.ZodBoolean;
+}, "strip", zod.ZodTypeAny, {
+    valid: boolean;
+}, {
+    valid: boolean;
+}>;
+/**
+ * @summary Get all messages for a room
  */
 export declare const GetMessagesParams: zod.ZodObject<{
     roomId: zod.ZodString;
@@ -113,7 +143,7 @@ export declare const GetMessagesResponse: zod.ZodArray<zod.ZodObject<{
     read: boolean;
 }>, "many">;
 /**
- * @summary Send a message to the parent (from child)
+ * @summary Send a message to the parent
  */
 export declare const SendMessageParams: zod.ZodObject<{
     roomId: zod.ZodString;
@@ -152,5 +182,108 @@ export declare const MarkMessagesReadResponse: zod.ZodObject<{
     updated: number;
 }, {
     updated: number;
+}>;
+/**
+ * @summary Get pending call request for a room
+ */
+export declare const GetCallRequestParams: zod.ZodObject<{
+    roomId: zod.ZodString;
+}, "strip", zod.ZodTypeAny, {
+    roomId: string;
+}, {
+    roomId: string;
+}>;
+export declare const GetCallRequestResponse: zod.ZodObject<{
+    callRequest: zod.ZodNullable<zod.ZodUnion<[zod.ZodObject<{
+        id: zod.ZodNumber;
+        roomId: zod.ZodString;
+        initiatedBy: zod.ZodString;
+        status: zod.ZodString;
+        createdAt: zod.ZodString;
+    }, "strip", zod.ZodTypeAny, {
+        status: string;
+        roomId: string;
+        id: number;
+        createdAt: string;
+        initiatedBy: string;
+    }, {
+        status: string;
+        roomId: string;
+        id: number;
+        createdAt: string;
+        initiatedBy: string;
+    }>, zod.ZodNull]>>;
+}, "strip", zod.ZodTypeAny, {
+    callRequest: {
+        status: string;
+        roomId: string;
+        id: number;
+        createdAt: string;
+        initiatedBy: string;
+    } | null;
+}, {
+    callRequest: {
+        status: string;
+        roomId: string;
+        id: number;
+        createdAt: string;
+        initiatedBy: string;
+    } | null;
+}>;
+/**
+ * @summary Initiate a call (ring the other side)
+ */
+export declare const CreateCallRequestParams: zod.ZodObject<{
+    roomId: zod.ZodString;
+}, "strip", zod.ZodTypeAny, {
+    roomId: string;
+}, {
+    roomId: string;
+}>;
+export declare const CreateCallRequestBody: zod.ZodObject<{
+    initiatedBy: zod.ZodString;
+}, "strip", zod.ZodTypeAny, {
+    initiatedBy: string;
+}, {
+    initiatedBy: string;
+}>;
+/**
+ * @summary Answer or decline a call
+ */
+export declare const UpdateCallRequestParams: zod.ZodObject<{
+    roomId: zod.ZodString;
+    callId: zod.ZodNumber;
+}, "strip", zod.ZodTypeAny, {
+    roomId: string;
+    callId: number;
+}, {
+    roomId: string;
+    callId: number;
+}>;
+export declare const UpdateCallRequestBody: zod.ZodObject<{
+    status: zod.ZodString;
+}, "strip", zod.ZodTypeAny, {
+    status: string;
+}, {
+    status: string;
+}>;
+export declare const UpdateCallRequestResponse: zod.ZodObject<{
+    id: zod.ZodNumber;
+    roomId: zod.ZodString;
+    initiatedBy: zod.ZodString;
+    status: zod.ZodString;
+    createdAt: zod.ZodString;
+}, "strip", zod.ZodTypeAny, {
+    status: string;
+    roomId: string;
+    id: number;
+    createdAt: string;
+    initiatedBy: string;
+}, {
+    status: string;
+    roomId: string;
+    id: number;
+    createdAt: string;
+    initiatedBy: string;
 }>;
 //# sourceMappingURL=api.d.ts.map
