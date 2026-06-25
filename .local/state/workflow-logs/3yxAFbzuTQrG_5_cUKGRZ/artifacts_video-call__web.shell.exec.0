@@ -1,0 +1,58 @@
+
+> @workspace/video-call@0.0.0 dev /home/runner/workspace/artifacts/video-call
+> vite --config vite.config.ts --host 0.0.0.0
+
+[replit-cartographer] Loaded @theme tokens from /home/runner/workspace/artifacts/video-call/src/index.css
+
+  [32m[1mVITE[22m v7.3.3[39m  [2mready in [0m[1m342[22m[2m[0m ms[22m
+
+  [32m➜[39m  [1mLocal[22m:   [36mhttp://localhost:[1m22041[22m/[39m
+  [32m➜[39m  [1mNetwork[22m: [36mhttp://172.24.0.2:[1m22041[22m/[39m
+[2m[32m  ➜[39m[22m[2m  press [22m[1mh + enter[22m[2m to show help[22m
+[33m[vite:css][postcss] @import must precede all other statements (besides @charset or empty @layer)
+4045 |    initial-value: 0;
+4046 |  }
+4047 |  @import url('https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800&family=Nunito:wght@400;500;600;...
+     |  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+4048 |  :root {
+4049 |    --button-outline: rgba(0,0,0, .10);[39m
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+[1;1H[0J[2m9:31:44 PM[22m [36m[1m[vite][22m[39m [90m[2m(client)[22m[39m [32mhmr update [39m[2m/src/App.tsx, /src/index.css[22m
+[33m[vite:css][postcss] @import must precede all other statements (besides @charset or empty @layer)
+4509 |    initial-value: 0;
+4510 |  }
+4511 |  @import url('https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800&family=Nunito:wght@400;500;600;...
+     |  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+4512 |  :root {
+4513 |    --button-outline: rgba(0,0,0, .10);[39m
+[2m9:32:11 PM[22m [36m[1m[vite][22m[39m [90m[2m(client)[22m[39m [32m✨ new dependencies optimized: [33m@radix-ui/react-slot, @radix-ui/react-label[32m[39m
+[2m9:32:11 PM[22m [36m[1m[vite][22m[39m [90m[2m(client)[22m[39m [32m✨ optimized dependencies changed. reloading[39m
+[33m[vite:css][postcss] @import must precede all other statements (besides @charset or empty @layer)
+4509 |    initial-value: 0;
+4510 |  }
+4511 |  @import url('https://fonts.googleapis.com/css2?family=Outfit:wght@400;500;600;700;800&family=Nunito:wght@400;500;600;...
+     |  ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
+4512 |  :root {
+4513 |    --button-outline: rgba(0,0,0, .10);[39m

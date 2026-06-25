@@ -1,0 +1,401 @@
+openapi: 3.1.0
+info:
+  # Do not change the title, if the title changes, the import paths will be broken
+  title: Api
+  version: 0.1.0
+  description: KidCall video conferencing API
+servers:
+  - url: /api
+    description: Base API path
+tags:
+  - name: health
+  - name: rooms
+  - name: messages
+  - name: calls
+paths:
+  /healthz:
+    get:
+      operationId: healthCheck
+      tags: [health]
+      summary: Health check
+      responses:
+        "200":
+          description: Healthy
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/HealthStatus"
+
+  /rooms:
+    post:
+      operationId: createRoom
+      tags: [rooms]
+      summary: Create a new call room
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/RoomInput"
+      responses:
+        "201":
+          description: Room created
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Room"
+
+  /rooms/{roomId}:
+    get:
+      operationId: getRoom
+      tags: [rooms]
+      summary: Get room details
+      parameters:
+        - name: roomId
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Room found
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Room"
+        "404":
+          description: Room not found
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+
+  /rooms/{roomId}/verify-pin:
+    post:
+      operationId: verifyPin
+      tags: [rooms]
+      summary: Verify the room PIN before joining
+      parameters:
+        - name: roomId
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/VerifyPinInput"
+      responses:
+        "200":
+          description: PIN verified
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/VerifyPinResponse"
+        "401":
+          description: Wrong PIN
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+        "404":
+          description: Room not found
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+
+  /rooms/{roomId}/messages:
+    get:
+      operationId: getMessages
+      tags: [messages]
+      summary: Get all messages for a room
+      parameters:
+        - name: roomId
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Messages list
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: "#/components/schemas/Message"
+        "404":
+          description: Room not found
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+    post:
+      operationId: sendMessage
+      tags: [messages]
+      summary: Send a message to the parent
+      parameters:
+        - name: roomId
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/MessageInput"
+      responses:
+        "201":
+          description: Message sent
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/Message"
+        "404":
+          description: Room not found
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+
+  /rooms/{roomId}/messages/read:
+    post:
+      operationId: markMessagesRead
+      tags: [messages]
+      summary: Mark all messages in a room as read
+      parameters:
+        - name: roomId
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Messages marked as read
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/MarkReadResponse"
+
+  /rooms/{roomId}/call:
+    get:
+      operationId: getCallRequest
+      tags: [calls]
+      summary: Get pending call request for a room
+      parameters:
+        - name: roomId
+          in: path
+          required: true
+          schema:
+            type: string
+      responses:
+        "200":
+          description: Call request (or null if none pending)
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/CallRequestResponse"
+    post:
+      operationId: createCallRequest
+      tags: [calls]
+      summary: Initiate a call (ring the other side)
+      parameters:
+        - name: roomId
+          in: path
+          required: true
+          schema:
+            type: string
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/CallRequestInput"
+      responses:
+        "201":
+          description: Call request created
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/CallRequest"
+        "404":
+          description: Room not found
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+
+  /rooms/{roomId}/call/{callId}:
+    patch:
+      operationId: updateCallRequest
+      tags: [calls]
+      summary: Answer or decline a call
+      parameters:
+        - name: roomId
+          in: path
+          required: true
+          schema:
+            type: string
+        - name: callId
+          in: path
+          required: true
+          schema:
+            type: integer
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema:
+              $ref: "#/components/schemas/UpdateCallRequestInput"
+      responses:
+        "200":
+          description: Call request updated
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/CallRequest"
+        "404":
+          description: Not found
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+
+components:
+  schemas:
+    HealthStatus:
+      type: object
+      properties:
+        status:
+          type: string
+      required: [status]
+
+    Room:
+      type: object
+      required: [id, hostName, createdAt, active, hasPin]
+      properties:
+        id:
+          type: string
+        hostName:
+          type: string
+        createdAt:
+          type: string
+        active:
+          type: boolean
+        hasPin:
+          type: boolean
+
+    RoomInput:
+      type: object
+      required: [hostName]
+      properties:
+        hostName:
+          type: string
+          minLength: 1
+        pin:
+          type: string
+
+    VerifyPinInput:
+      type: object
+      required: [pin]
+      properties:
+        pin:
+          type: string
+
+    VerifyPinResponse:
+      type: object
+      required: [valid]
+      properties:
+        valid:
+          type: boolean
+
+    Message:
+      type: object
+      required: [id, roomId, senderName, content, type, read, createdAt]
+      properties:
+        id:
+          type: integer
+        roomId:
+          type: string
+        senderName:
+          type: string
+        content:
+          type: string
+        type:
+          type: string
+        read:
+          type: boolean
+        createdAt:
+          type: string
+
+    MessageInput:
+      type: object
+      required: [senderName, content]
+      properties:
+        senderName:
+          type: string
+          minLength: 1
+        content:
+          type: string
+          minLength: 1
+        type:
+          type: string
+          default: text
+
+    MarkReadResponse:
+      type: object
+      required: [updated]
+      properties:
+        updated:
+          type: integer
+
+    CallRequest:
+      type: object
+      required: [id, roomId, initiatedBy, status, createdAt]
+      properties:
+        id:
+          type: integer
+        roomId:
+          type: string
+        initiatedBy:
+          type: string
+        status:
+          type: string
+        createdAt:
+          type: string
+
+    CallRequestResponse:
+      type: object
+      required: [callRequest]
+      properties:
+        callRequest:
+          nullable: true
+          oneOf:
+            - $ref: "#/components/schemas/CallRequest"
+            - type: "null"
+
+    CallRequestInput:
+      type: object
+      required: [initiatedBy]
+      properties:
+        initiatedBy:
+          type: string
+
+    UpdateCallRequestInput:
+      type: object
+      required: [status]
+      properties:
+        status:
+          type: string
+
+    ErrorResponse:
+      type: object
+      required: [error]
+      properties:
+        error:
+          type: string
