@@ -1,0 +1,12 @@
+{
+  "buildCommand": "pnpm --filter @workspace/video-call run build",
+  "outputDirectory": "artifacts/video-call/dist/public",
+  "installCommand": "pnpm install",
+  "framework": null,
+  "rewrites": [
+    {
+      "source": "/((?!assets/).*)",
+      "destination": "/index.html"
+    }
+  ]
+}
