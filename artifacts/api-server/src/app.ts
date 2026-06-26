@@ -1,24 +1,30 @@
-import express, { type Express } from "express";
+import express, { type Express, type Request, type Response, type NextFunction } from "express";
 import cors from "cors";
 import pinoHttp from "pino-http";
+import type { IncomingMessage, ServerResponse } from "http";
 import path from "path";
 import router from "./routes";
 import { logger } from "./lib/logger";
 
+// Handle CJS/ESM interop — some bundlers resolve the default export differently
+const createPinoHttp = typeof pinoHttp === "function"
+  ? pinoHttp
+  : (pinoHttp as unknown as { default: typeof pinoHttp }).default;
+
 const app: Express = express();
 
 app.use(
-  pinoHttp({
+  createPinoHttp({
     logger,
     serializers: {
-      req(req) {
+      req(req: IncomingMessage & { id?: string; method?: string; url?: string }) {
         return {
           id: req.id,
           method: req.method,
           url: req.url?.split("?")[0],
         };
       },
-      res(res) {
+      res(res: ServerResponse & { statusCode?: number }) {
         return {
           statusCode: res.statusCode,
         };
